@@ -1,2 +1,2 @@
-# dotfiles
-dotfiles from celeste@wired on arch
+# bash-ful's dotfiles
+my dotfiles from my arch setup
