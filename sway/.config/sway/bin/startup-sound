@@ -1,0 +1,6 @@
+#!/bin/bash
+delay_in_seconds=0.225
+volume=0.57
+
+sleep $delay_in_seconds \
+&& pw-play --volume=$volume $(find /home/celeste/.au/startup -type f | shuf -n 1)

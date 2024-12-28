@@ -1,0 +1,9 @@
+#!/bin/bash
+wallpapers_dir="$1"
+init="$2"
+swww-daemon --format xrgb --no-cache \
+& swww img -t none "$init" \
+&& /home/celeste/.config/sway/bin/swww-next-rand "$wallpapers_dir" \
+&& /home/celeste/.config/sway/bin/swww-rand-sched "$wallpapers_dir"
+
+

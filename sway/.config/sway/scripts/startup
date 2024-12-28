@@ -1,0 +1,18 @@
+exec $bin_dir/sound-init
+
+# essentials
+exec $bin_dir/swww-start /home/celeste/Pictures/animated_wallpapers /home/celeste/Pictures/wall3.png
+exec_always pkill "^yambar$"  && yambar || yambar
+exec mako
+exec foot --server
+
+# startup programs
+exec discord
+exec /home/celeste/.config/sway/bin/wlsunset-c start
+# other stuff
+exec lxqt-policykit-agent
+seat seat0 xcursor_theme material_light_cursors 32
+# exec wl-paste -t text --watch clipman store --no-persist
+
+exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway

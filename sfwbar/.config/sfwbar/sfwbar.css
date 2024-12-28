@@ -1,0 +1,106 @@
+@import url("colors.css");
+
+* {
+  font-family: "Tahoma:style=Bold";
+  font-size: 12px;
+  color: black;
+  transition-duration: 0;
+}
+
+window {
+  -gtkwidget-direction: bottom;
+  background-color: @main-color;
+  border-top: solid 2px white;
+}
+
+label {
+  text-shadow: none;
+}
+
+button,
+button image {
+  outline-style: none;
+  box-shadow: none;
+  background-image: none;
+  border-image: none;
+  border-radius: 0;
+  min-height: 16px;
+  min-width: 16px;
+  margin: 0px;
+  margin-right: 3px;
+  border: 0px;
+  background-color: rgba(0, 0, 0, 0);
+  -gtkwidget-valign: center;
+}
+
+button#startmenu,
+button#module {
+  border: none;
+  padding: 3px;
+  margin: 5px;
+  -gtkwidget-vexpand: true;
+}
+
+button#taskbar_group_normal,
+button#taskbar_group_active {
+  margin: 6px 8px 5px 0;
+  padding: 5px 50px 5px 5px;
+  -gtkwidget-valign: center;
+}
+
+button#taskbar_group_normal {
+  box-shadow: 0 0 0 2px @button-shadow-darkest,
+    -0.5px -0.5px 0 1.5px @button-highlight-brightest,
+    0 0 0 1px @button-highlight-bright,
+    -0.5px -0.5px 0 0.5px @button-shadow-dark;
+  transition-duration: 0;
+}
+
+button#taskbar_group_active {
+  background-color: rgb(230, 228, 223);
+  box-shadow: 0 0 0 2px @button-highlight-brightest,
+    -0.5px -0.5px 0 1.5px @button-shadow-darkest, 0 0 0 1px @button-shadow-dark,
+    -0.5px -0.5px 0 0.5px @button-highlight-bright;
+  font-weight: 600;
+}
+
+#menu_item,
+#menu_item *,
+#menu_item image,
+#menu_item label {
+  -gtkwidget-halign: start;
+}
+
+#menu_item:hover  {
+  background-color: #000080;
+}
+
+#menu_item:hover label {
+  color: white;
+}
+
+#menu_item image {
+  min-width: 16px;
+  min-height: 16px;
+  padding-right: 2px;
+  margin-right: 7px;
+  margin-left: 3px;
+}
+
+menu {
+  background-color: @main-color;
+}
+
+menu arrow {
+  background: none;
+}
+
+label#clock {
+  -gtkwidget-vexpand: true;
+  -gtkwidget-valign: center;
+  margin: 6px 8px 5px 0;
+  background-color: rgb(230, 228, 223);
+  box-shadow: 0 0 0 2px #ffffff, -0.5px -0.5px 0 1.5px #0a0a0a,
+    0 0 0 1px #c0c0c0, -0.5px -0.5px 0 0.5px #808080;
+  padding: 5px 10px;
+}

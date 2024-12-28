@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+# /usr/bin/playerctl -F metadata -f "{{artist}} — {{title}}" | awk -F ' — ' '{if (NF==2 && $1=="") {print $2} else {print}}'
+/usr/bin/playerctl -F metadata -f "{{artist}} — {{title}}" | awk -F ' — ' '{if (NF==2 && $1=="") {print "myString|string|" $2} else {print "myString|string|" $0}}' && echo ""
+
+

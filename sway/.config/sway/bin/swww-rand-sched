@@ -1,0 +1,24 @@
+#!/bin/bash
+lock_file="$HOME/.config/sway/swww-rand-sched.lock"
+wallpapers_dir=$1
+swww_next_rand="$HOME/.config/sway/bin/swww-next-rand"
+
+cleanup() {
+    rm -f "$lock_file"
+    exit 0
+}
+
+another_instance() {
+    >&2 echo "An instance of swww-rand-sched is already running."
+    exit 1
+}
+
+trap cleanup SIGINT SIGTERM
+{
+    flock -n 100 || another_instance
+    interval_in_seconds=$((1000 + (RANDOM % 500)))
+    while true; do
+        sleep "$interval_in_seconds"
+        "$swww_next_rand" "$wallpapers_dir"
+    done
+} 100>"$lock_file"

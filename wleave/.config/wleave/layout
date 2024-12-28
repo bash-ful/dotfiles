@@ -1,0 +1,24 @@
+{
+    "label" : "lock",
+    "action" : "swaylock-corrupt",
+    "text" : "(o)",
+    "keybind" : "o"
+}
+{
+    "label" : "logout",
+    "action" : "swaymsg exit",
+    "text" : "(l)",
+    "keybind" : "l"
+}
+{
+    "label" : "shutdown",
+    "action" : "systemctl poweroff",
+    "text" : "(s)",
+    "keybind" : "s"
+}
+{
+    "label" : "reboot",
+    "action" : "systemctl reboot",
+    "text" : "(r)",
+    "keybind" : "r"
+}

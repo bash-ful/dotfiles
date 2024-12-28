@@ -1,0 +1,10 @@
+# sway-fx specific configs
+# default_dim_inactive 0.17
+# dim_inactive_colors.unfocused #000014FF
+# dim_inactive_colors.urgent #900000FF
+
+# blur enable
+# blur_passes 2
+# blur_radius 2
+# shadows enable
+# shadow_blur_radius 70

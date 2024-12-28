@@ -1,0 +1,9 @@
+@define-color main-color rgb(220, 218, 213);
+@define-color menu-color rgb(220, 218, 213);
+
+@define-color button-shadow-darkest rgb(10, 10, 10);
+@define-color button-shadow-dark rgb(192, 192, 192);
+@define-color button-highlight-brightest rgb(255, 255, 255);
+@define-color button-highlight-bright rgb(128, 128, 128);
+
+@define-color my-blue rgb(0, 0, 128);

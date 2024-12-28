@@ -1,0 +1,15 @@
+#!/bin/bash
+export GRIM_DEFAULT_DIR=/home/celeste/Pictures/Screenshots
+if [ "$1" = "save" -a "$2" = "output" ] ; then
+    grim && notify-send -a grim -- "grim" "Screenshot taken!"
+    exit 0
+elif [ "$1" = "save" -a "$2" = "area" ] ; then
+    grim -g "$(slurp)" && notify-send -a grim -- "grim" "Screenshot taken!"
+    exit 0
+elif [ "$1" = "copy" -a "$2" = "output" ] ; then
+    grim - | wl-copy && notify-send -a grim -- "grim" "Screenshot copied to clipboard!"
+    exit 0
+elif [ "$1" = "copy" -a "$2" = "area" ] ; then
+    grim -g "$(slurp)" | wl-copy && notify-send -a grim -- "grim" "Screenshot copied to clipboard!"
+    exit 0
+fi

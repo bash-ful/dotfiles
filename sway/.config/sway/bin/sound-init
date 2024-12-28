@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+/home/celeste/.local/bin/restore-sound &
+/home/celeste/.config/sway/bin/startup-sound &&
+/home/celeste/.config/sway/bin/avizo-1
+
+
