@@ -1,4 +1,14 @@
 #!/bin/env bash
+lock_file="$HOME/.config/i3/feh-anim.lock"
+
+cleanup() {
+	rm -f "$lock_file"
+	exit 0
+}
+
+trap cleanup SIGINT SIGTERM
+{
+flock -n 100 || exit 1
 select1='feh --bg-fill --no-fehbg '
 select2='xwallpaper --zoom '
 select3='xloadimage -onroot -fullscreen '
@@ -30,5 +40,15 @@ if [ "$1" == "auto" ]; then
     speed=$(bc <<< "scale=3; ($amount_of_frames/$frames_per_second) * (1/$frames_per_second)")
 fi
 
-while : ; do for i in ` ls $dir/$hash -v ` ; do $prog$dir/$hash/$i ; sleep $speed ; done ; done    
-   
+while : ; do
+	for i in ` ls $dir/$hash -v ` ; do
+		if xset q &>/dev/null ; then
+			$prog$dir/$hash/$i
+			sleep $speed
+		else
+			echo "X server is not running. Exiting..."
+			exit 1
+		fi
+	done
+done    
+} 100>"$lock_file"   
