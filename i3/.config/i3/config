@@ -181,8 +181,7 @@ bar {
 # user added
 focus_follows_mouse no
 # background image
-# exec_always /home/celeste/.fehbg
-exec_always "/home/celeste//back4 auto Pictures/furret-pixel.gif"
+exec_always "$HOME/.config/i3/scripts/feh-anim auto Pictures/furret-pixel.gif"
 # for_window blocks
 
 for_window [title="Picture-in-Picture|Picture in picture"] dim_inactive 0, sticky enable, floating enable

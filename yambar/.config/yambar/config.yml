@@ -217,7 +217,7 @@ bar:
                     max: 30
   right:
     - script:
-        path: /home/celeste/monitor
+        path: ./scripts/monitor
         args: []
         content:
           map:
