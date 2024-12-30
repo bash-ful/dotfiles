@@ -209,10 +209,13 @@ for_window [class="nemo" title="^.* Properties$|^Edit Bookmarks$"] floating enab
 for_window [class="steam" title="^Steam Settings$"] floating enable
 # assigning specific programs to workspaces
 assign [class="virt-manager|codium-url-handler"] → 2
+
 assign [class="lutris"] → 3
 assign [class="org\.prismlauncher\.PrismLauncher"] → 3
 assign [class="epicgameslauncher.exe|steam"] → 3
-assign [title="Wine System Tray|Steam$"] → 3
+assign [title="Steam$"] → 3
+assign [title="r2modman"] 3
+
 assign [class="borderlands3.exe"] → 4
 assign [class="TerraTechLinux64"] → 4
 assign [class="Monkeytype-desktop"] → 4
@@ -222,15 +225,19 @@ assign [class="dotnet" title="Terraria*"] → 4
 assign [class="hl2_linux"] → 4
 assign [class="dota2"] → 4
 assign [class="org.libretro.RetroArch"] → 4
+
 assign [class="FreeTube|Spotify"] → 5
 assign [class="pyradio"] → 5
 assign [class="pavucontrol"] → 5
 assign [class="jamesdsp"] → 5 
 # assign [class="mpv"] → 5
+
 assign [class="Caprine"] → 6
 assign [class="WebCord"] → 6
 assign [class="discord"] → 6
 assign [class="vesktop"] → 6
 assign [class="Ripcord"] → 6
+assign [class="Legcord|legcord"] → 6
+
 assign [class="org.qbittorrent.qBittorrent"] → 7                                         
 
