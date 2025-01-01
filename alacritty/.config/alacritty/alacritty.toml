@@ -1,0 +1,6 @@
+[general]
+import = [ "themes/aura.toml", "fonts/jetbrains.toml" ]
+
+[font]
+size = 12
+
