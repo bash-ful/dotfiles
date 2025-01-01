@@ -1,12 +1,16 @@
 alias grep='grep --color=auto'
-alias ls='ls --color=auto'
-alias ex='exa'
-alias exa='exa -a'
-alias exl='exa -l'
-alias exal='exa -al'
-alias exhl='exa -ld .?*'
+
+# ls/eza/exa
+alias ls='eza'
+alias l='eza -lbF --git'
+alias lt='eza --tree --level=2'
+alias la='eza -lbhHigUmuSa --time-style=long-iso --git --color-scale'
+
+# other apps
 alias ytv='youtube-viewer'
 alias tra='trashy --color=auto'
+
+# package managers
 alias upd='sudo pacman -Syu'
 alias yeet='paru -Rcs'
 alias pru='paru'
