@@ -1,0 +1,25 @@
+xscreensaver-auth.default.*.newLoginCommand: dm-tool switch-to-greeter
+
+*color0: #a277ff
+*color1: #3d375e7f
+*color2: #29263c
+*color3: #61ffca
+*color4: #ffca85
+*color5: #f694ff
+*color6: #82e2ff
+*color7: #ff6767
+*color8: #edecee
+*color9: #6d6d6d
+*color10: #15141b
+
+*color0s: #8464c6
+*color1s: #3d375e7f
+*color2s: #29263c
+*color3s: #54c59f
+*color4s: #c7a06f
+*color5s: #c17ac8
+*color6s: #6cb2c7
+*color7s: #c55858
+*color8s: #bdbdbd
+*color9s: #6d6d6d
+*color10s: #15141b
