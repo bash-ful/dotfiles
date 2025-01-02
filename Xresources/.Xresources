@@ -1,5 +1,8 @@
 xscreensaver-auth.default.*.newLoginCommand: dm-tool switch-to-greeter
 
+
+! Theme: https://github.com/daltonmenezes/aura-theme/tree/main/packages/color-palettes
+! Dark
 *color0: #a277ff
 *color1: #3d375e7f
 *color2: #29263c
@@ -12,6 +15,7 @@ xscreensaver-auth.default.*.newLoginCommand: dm-tool switch-to-greeter
 *color9: #6d6d6d
 *color10: #15141b
 
+! Dark Soft
 *color0s: #8464c6
 *color1s: #3d375e7f
 *color2s: #29263c
