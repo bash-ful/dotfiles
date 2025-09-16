@@ -1,0 +1,32 @@
+include {
+	./variables
+	./startup
+	./inputs
+	./outputs
+	./windows
+	/etc/sway/config.d/*
+	./swayfx
+	./keybinds
+}
+
+gaps {
+	outer 0
+	inner 3
+}
+
+font $font
+seat seat0 xcursor_theme Bibata-Modern-Ice 24
+
+client.focused #3f3fafef #24246ff5 #ffffff #ffd700cc
+client.urgent #8f2424f5 #af3f3fef #ffffff #ffd700cc
+
+focus_follows_mouse no
+workspace_layout default
+
+default_border pixel 2.5
+default_floating_border pixel 2.5
+titlebar_border_thickness 1
+titlebar_padding 10 2
+
+
+include /home/celeste/swayca-config/appended-config

@@ -1,0 +1,248 @@
+# Customize/sway workspace module here
+
+spacer: &spacer
+  content: { string: { margin: 5, text: "" } }
+
+i3:
+  fonts:
+    1: &main FiraMono Nerd Font Mono:style=Bold:pixelsize=20
+    2: &smaller FiraMono Nerd Font Mono:style=Bold:pixelsize=14
+    3: &icon FiraMono Nerd Font Mono:style=Bold:pixelsize=24
+  colors:
+    1: &focused ff395fff
+    2: &invisible c7b9b9d7
+    3: &urgent ffd700ff
+
+  workspaces:
+    1: &ws1 ss
+    2: &ws2 ss2
+    3: &ws3 l/sv
+    4: &ws4 f/g
+    5: &ws5 a/v
+    6: &ws6 soc/m
+    7: &ws7 tr
+# Customize clock formats and all that
+clock:
+  date-format1: &date-format1 "%d"
+  date-format1-foreground: &date-format1-foreground ff395fff
+  date-format2: &date-format2 "-%b-%y"
+
+bar:
+  location: top
+  height: 30
+  background: 161635ff
+  margin: 5
+  font: *main
+  left:
+    - i3:
+        spacing: 5
+        sort: ascending
+        content:
+          1:
+            map:
+              conditions:
+                state == focused:
+                  string:
+                    foreground: *focused
+                    text: *ws1
+                state == invisible:
+                  string:
+                    foreground: *invisible
+                    text: *ws1
+                    on-click:
+                      left: "swaymsg workspace 1"
+                state == urgent:
+                  string:
+                    foreground: *urgent
+                    text: *ws1
+                    on-click:
+                      left: "swaymsg workspace 1"
+
+          2:
+            map:
+              conditions:
+                state == focused:
+                  string:
+                    foreground: *focused
+                    text: *ws2
+                state == invisible:
+                  string:
+                    foreground: *invisible
+                    text: *ws2
+                    on-click:
+                      left: "swaymsg workspace 2"
+                state == urgent:
+                  string:
+                    foreground: *urgent
+                    text: *ws2
+                    on-click:
+                      left: "swaymsg workspace 2"
+
+          3:
+            map:
+              conditions:
+                state == focused:
+                  string:
+                    foreground: *focused
+                    text: *ws3
+                state == invisible:
+                  string:
+                    foreground: *invisible
+                    text: *ws3
+                    on-click:
+                      left: "swaymsg workspace 3"
+                state == urgent:
+                  string:
+                    foreground: *urgent
+                    text: *ws3
+                    on-click:
+                      left: "swaymsg workspace 3"
+
+          4:
+            map:
+              conditions:
+                state == focused:
+                  string:
+                    foreground: *focused
+                    text: *ws4
+                state == invisible:
+                  string:
+                    foreground: *invisible
+                    text: *ws4
+                    on-click:
+                      left: "swaymsg workspace 4"
+                state == urgent:
+                  string:
+                    foreground: *urgent
+                    text: *ws4
+                    on-click:
+                      left: "swaymsg workspace 4"
+
+          5:
+            map:
+              conditions:
+                state == focused:
+                  string:
+                    foreground: *focused
+                    text: *ws5
+                state == invisible:
+                  string:
+                    foreground: *invisible
+                    text: *ws5
+                    on-click:
+                      left: "swaymsg workspace 5"
+                state == urgent:
+                  string:
+                    foreground: *urgent
+                    text: *ws5
+                    on-click:
+                      left: "swaymsg workspace 5"
+
+          6:
+            map:
+              conditions:
+                state == focused:
+                  string:
+                    foreground: *focused
+                    text: *ws6
+                state == invisible:
+                  string:
+                    foreground: *invisible
+                    text: *ws6
+                    on-click:
+                      left: "swaymsg workspace 6"
+                state == urgent:
+                  string:
+                    foreground: *urgent
+                    text: *ws6
+                    on-click:
+                      left: "swaymsg workspace 6"
+
+          7:
+            map:
+              conditions:
+                state == focused:
+                  string:
+                    foreground: *focused
+                    text: *ws7
+                state == invisible:
+                  string:
+                    foreground: *invisible
+                    text: *ws7
+                    on-click:
+                      left: "swaymsg workspace 7"
+                state == urgent:
+                  string:
+                    foreground: *urgent
+                    text: *ws7
+                    on-click:
+                      left: "swaymsg workspace 7"
+
+          "":
+            map:
+              default:
+                string:
+                  text: "{name}"
+              conditions:
+                state == focused:
+                  string:
+                    foreground: *focused
+                    text: "{name}"
+                state == invisible:
+                  string:
+                    foreground: *invisible
+                    text: "{name}"
+                    on-click:
+                      left: "swaymsg workspace {name}"
+
+                state == urgent:
+                  string:
+                    foreground: *urgent
+                    text: "{name}"
+                    on-click:
+                      left: "swaymsg workspace {name}"
+
+    - label:
+        <<: *spacer
+
+    - foreign-toplevel:
+        content:
+          map:
+            conditions:
+              ~activated: { empty: {} }
+              activated:
+                - string:
+                    font: *smaller
+                    text: "{app-id}: {title}"
+                    max: 30
+  right:
+    - script:
+        path: $HOME/.local/bin/monitor
+        args: []
+        content:
+          map:
+            default: { empty: {} }
+            conditions:
+              status == Paused:
+                string:
+                  font: *smaller
+                  text: "{status}"
+              status == Playing:
+                string:
+                  font: *smaller
+                  text: "{var}"
+
+    - label:
+        <<: *spacer
+    - clock:
+        date-format: *date-format1
+        content:
+          string:
+            text: "{date}"
+            foreground: *date-format1-foreground
+
+    - clock:
+        date-format: *date-format2
+        content:
+          string:
+            text: "{date} × {time}"

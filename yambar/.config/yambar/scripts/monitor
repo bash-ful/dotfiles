@@ -1,0 +1,108 @@
+#!/bin/bash
+
+print_text() {
+    echo -e "${1}|string|${2}"
+}
+
+flush_stream() {
+    echo ""
+}
+
+to_scroll_per_second() {
+    echo "scale=2; 1 / $1" | bc
+}
+
+print_help() {
+    echo "Usage: $0 [-w|--width WIDTH] [-r|--rate RATE]"
+    echo "OPTIONS:"
+    echo -e "  -w, --width		sets the character scroll width [Default: 30]"
+    echo -e "  -r, --rate		sets the rate of character scrolled per second. [Default: 6]"
+    echo -e "  -h, --help		print this message and exit"
+}
+
+scroll_width=30
+polling_rate_millis=$(to_scroll_per_second 6)
+
+RED='\033[0;31m'
+NC='\033[0m'
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+    -w | --scroll-width)
+        shift
+        scroll_width="$1"
+        ;;
+    -r | --rate)
+        shift
+        polling_rate_millis=$(to_scroll_per_second "$1")
+        ;;
+    -h | --help)
+        print_help
+        exit 0
+        ;;
+    *)
+        echo -e "${RED}invalid option: $1${NC}"
+        print_help
+        exit 1
+        ;;
+    esac
+    shift
+done
+
+text_file=$(mktemp)
+trap 'rm -f "$text_file"' EXIT
+delimiter="␟"
+update_text() {
+    playerctl -p "mpv","firefox","%any" -F metadata -f "{{status}}${delimiter}{{artist}}${delimiter}{{title}}" | while read -r line; do
+        echo "$line" >"$text_file"
+    done
+}
+update_text &
+blink_state=0
+while true; do
+    read -r undelimited_text <"$text_file"
+    IFS=$delimiter read -r status artist title <<<"$undelimited_text"
+
+    case "$status" in
+    "Playing")
+        blink_state=0
+        ;;
+    "Paused" | "Stopped")
+        if [ $blink_state -eq 0 ]; then
+            print_text "status" "${status}"
+            blink_state=1
+        else
+            print_text "status" ""
+            blink_state=0
+        fi
+        flush_stream
+        sleep 0.5
+        continue
+        ;;
+    *) ;;
+    esac
+
+    [ -n "$title" ] && text=$title
+    [ -n "$artist" ] && text="${artist}${text:+ — }${text}"
+
+    extended_text="${text}$(printf ' %.0s' $(seq 1 "$scroll_width"))${text}"
+    text_length=${#text}
+    for ((i = 0; i < text_length + scroll_width; i++)); do
+        cached_text="$undelimited_text"
+        read -r undelimited_text <"$text_file"
+        IFS=$delimiter read -r status artist title <<<"$undelimited_text"
+        if [ "$cached_text" != "$undelimited_text" ]; then
+            print_text "var" ""
+            flush_stream
+            sleep 0.4
+            break
+        fi
+        if [ "$status" != "Playing" ]; then
+            break
+        fi
+        view=${extended_text:i:scroll_width}
+        print_text "var" "$(printf "%-${scroll_width}s" "$view")"
+        print_text "status" "Playing"
+        flush_stream
+        sleep "$polling_rate_millis"
+    done
+done

@@ -1,0 +1,6 @@
+# exec $bin_dir/swww-start /home/celeste/Pictures/wallpapers/live /home/celeste/Pictures/wallpapers/forest.jpg
+exec {
+#	systemctl --user start sway-session.target
+	$scripts_dir/wlsunset-c start
+	lxqt-policykit-agent
+}

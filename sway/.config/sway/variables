@@ -1,0 +1,14 @@
+set {
+	$scripts_dir "$HOME/.local/bin"
+	$grim_dir "$HOME/Pictures/Screenshots"
+	$font "pango:D-DIN 12"
+	$menu fuzzel || pkill fuzzel
+	$term footclient
+	$browser qutebrowser
+	$filemanager pcmanfm
+	$mod Mod4
+	$left h
+	$down j
+	$up k
+	$right l
+}

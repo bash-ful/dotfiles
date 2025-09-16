@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+themes=(
+    "$HOME/.config/sway/themes/default-theme"
+    "$HOME/.config/sway/themes/custom-theme-1"
+    "$HOME/.config/sway/themes/custom-theme-2"
+    )
+
+theme_index="$1"
+num_themes=${#themes[@]}
+index=$(( (theme_index + 1) % num_themes ))
+selected_theme=${themes[0]}
+[ -e "${themes[$index]}" ] && selected_theme="${themes[$index]}"
+
+ln -sf "$selected_theme" "$HOME/.config/sway/my-theme"
+swaymsg reload
