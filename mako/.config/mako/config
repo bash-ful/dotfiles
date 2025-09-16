@@ -7,11 +7,11 @@ border-size=3
 border-color=#36364a9a
 border-radius=11
 icons=1
+icon-path=/usr/share/icons/Tela-circle-dracula-dark/
 max-icon-size=48
-default-timeout=1750
-ignore-timeout=1
+default-timeout=2500
 font=D\-DIN Exp:style=regular 11
-on-notify=exec pw-play --volume=0.65 "$HOME/.au/notification/keypress.wav"
+on-notify=exec pw-play --volume=0.65 "$HOME/Music/notifications/keypress.wav"
 
 [urgency="low"]
 border-color=#00000000
@@ -26,25 +26,32 @@ default-timeout=0
 
 [app-name="wf-recorder" body="recording terminated\!"]
 default-timeout=750
-on-notify=exec pw-play --volume=0.65 "$HOME/.au/notification/goink-2.wav"
+on-notify=exec pw-play --volume=0.65 "$HOME/Music/notifications/goink-2.wav"
 format=<b>%s</b>\n%b
 group-by=app-name
 
 [app-name="wf-recorder" body="recording\.\.\."]
 default-timeout=450
-on-notify=exec pw-play --volume=0.65 "$HOME/.au/notification/goink.wav"
+on-notify=exec pw-play --volume=0.65 "$HOME/Music/notifications/goink.wav"
 format=<b>%s</b>\n%b
+group-by=app-name
+
+[app-name="gpu-screen-recorder" summary="Recording\.\.\."]
+on-notify=exec pw-play --volume=0.5 "$HOME/Music/notifications/cambeep.wav"
+group-by=app-name
+
+[app-name="gpu-screen-recorder" summary="Recording stopped"]
+on-notify=exec pw-play --volume=0.5 "$HOME/Music/notifications/cambeep-2.wav"
 group-by=app-name
 
 [app-name="wl-screenrec" body="recording terminated\!"]
 default-timeout=750
-on-notify=exec pw-play --volume=0.65 "$HOME/.au/notification/goink-2.wav" format=<b>%s</b>\n%b
+on-notify=exec pw-play --volume=0.65 "$HOME/Music/notifications/goink-2.wav" format=<b>%s</b>\n%b
 group-by=app-name
-
 
 [app-name="wl-screenrec" body="recording\.\.\."]
 default-timeout=450
-on-notify=exec pw-play --volume=0.65 "$HOME/.au/notification/goink.wav"
+on-notify=exec pw-play --volume=0.65 "$HOME/Music/notifications/goink.wav"
 format=<b>%s</b>\n%b
 group-by=app-name
 
@@ -54,10 +61,10 @@ format=<b>%s</b>\n%b
 group-by=app-name
 
 [app-name="grimshot" summary="Screenshot of output"]
-on-notify=exec pw-play --volume=0.80 $(find "$HOME/.au/notification/shutter/" -type f | shuf -n 1)
+on-notify=exec pw-play --volume=0.80 $(find "$HOME/Music/notifications/shutter/" -type f | shuf -n 1)
 
 [app-name="Firefox" summary~="Saved ·"]
-on-notify=exec pw-play --volume=0.75 "$HOME/.au/notification/bottle.wav"
+on-notify=exec pw-play --volume=0.75 "$HOME/Music/notifications/bottle.wav"
 
 [summary="Now playing" body~="^.* - .*$"]
 on-notify=exec true
@@ -72,6 +79,11 @@ border-color=#4aca6bff
 
 [app-name="Caprine"]
 default-timeout=2500
-on-notify=exec pw-play --volume=0.75 "$HOME/.au/notification/facebook_old.wav"
+on-notify=exec pw-play --volume=0.75 "$HOME/Music/notifications/facebook_old.wav"
 background-color=#1a1a7aa1
 border-color=#2a6bcaff
+
+[app-name="volumectl"]
+progress-color=#ffffffff
+anchor=center
+group-by=app-name

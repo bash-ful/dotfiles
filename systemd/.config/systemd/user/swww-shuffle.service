@@ -1,0 +1,9 @@
+[Unit]
+Description=swww wallpaper changer
+Requires=swww-daemon-sway.service
+After=swww-daemon-sway.service
+
+[Service]
+Environment="WALLPAPER_DIR=%h/Pictures/wallpapers/live"
+Type=oneshot
+ExecStart=%h/.local/bin/swww-next-rand $WALLPAPER_DIR

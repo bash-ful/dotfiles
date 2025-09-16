@@ -1,0 +1,13 @@
+[Unit]
+Description=swww daemon
+Documentation=man:swww-daemon
+BindsTo=graphical-session.target
+Requires=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=notify
+ExecStart=swww-daemon --format xrgb
+
+[Install]
+WantedBy=graphical-session.target

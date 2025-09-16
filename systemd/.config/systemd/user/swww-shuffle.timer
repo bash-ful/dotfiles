@@ -1,0 +1,8 @@
+[Unit]
+Description=Run swww-shuffle periodically
+
+[Timer]
+OnUnitActiveSec=1800
+
+[Install]
+WantedBy=timers.target

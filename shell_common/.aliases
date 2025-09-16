@@ -1,0 +1,6 @@
+alias upd="sudo pacman -Syu"
+alias cupd="checkupdates"
+alias ls="eza"
+alias pbcopy="xsel --clipboard --input"
+alias pbpaste="xsel --clipboard --output"
+alias cec="catbox-embedcord"
