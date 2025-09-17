@@ -1,0 +1,105 @@
+#!/bin/sh
+# usage:
+#		catbox-embedcord path/to/video_file
+# uploads video to catbox (requires user hash),
+# and then inserts the link to autocompressor's
+# discord av1 embed hack api, bypassing
+# discord's filesize limit and
+# catbox's embed limitations on discord.
+# also uses catbox album ids, mainly for
+# organizing and grouping uploaded files.
+# 
+# catbox has a 200mb limit, and the autocompressor hack
+# needs certain video codecs for it to work.
+# links
+# https://aur.archlinux.org/packages/catbox-bin
+# https://autocompressor.net/av1#documentation 
+
+USER_HASH=$CATBOX_USER_HASH
+VIDEO_FILE=$1
+VIDEO_ALBUM_ID=$CATBOX_VIDEO_ALBUM_ID
+THUMB_FILE=$(mktemp --suffix=.jpeg)
+
+trap 'rm -f "$THUMB_FILE"' EXIT
+echo "generating thumbnail from video frame 1..."
+if ffmpeg -hide_banner -loglevel error -y -i "$VIDEO_FILE" -update true -vframes 1 "$THUMB_FILE"; then
+	echo "thumbnail $THUMB_FILE generated from video frame 1."
+else
+	echo "error generating thumbnail." >&2
+	exit
+fi
+
+THUMB_ALBUM_ID=$CATBOX_PICTURE_ALBUM_ID
+VIDEO_WIDTH=$(mediainfo --Output='Video;%Width%' "$VIDEO_FILE")
+VIDEO_HEIGHT=$(mediainfo --Output='Video;%Height%' "$VIDEO_FILE")
+
+echo "uploading video $VIDEO_FILE to catbox..."
+if CATBOX_VIDEO_URL=$(catbox upload -u "$USER_HASH" "$VIDEO_FILE"); then
+	echo "video uploaded to catbox successfully."
+	CATBOX_VIDEO_ID=$(sed -e 's|https://files.catbox.moe/||g' <(echo "$CATBOX_VIDEO_URL"))
+	echo "adding video $CATBOX_VIDEO_ID to album $VIDEO_ALBUM_ID..."
+	if catbox album add -s "$VIDEO_ALBUM_ID" "$CATBOX_VIDEO_ID" > /dev/null; then
+		echo "video successfully added to the album."
+	else
+		echo "error adding video $CATBOX_VIDEO_ID to album $VIDEO_ALBUM_ID." >&2
+		catbox delete "$CATBOX_VIDEO_ID"
+		exit
+	fi
+else
+	echo "error uploading video to catbox." >&2 
+	exit
+fi
+
+echo "uploading thumbnail $THUMB_FILE to catbox..."
+if CATBOX_THUMB_URL=$(catbox upload "$THUMB_FILE"); then
+	echo "thumbnail uploaded to catbox successfully."
+	CATBOX_THUMB_ID=$(sed -e 's|https://files.catbox.moe/||g' <(echo "$CATBOX_THUMB_URL"))
+	echo "adding thumbnail $CATBOX_THUMB_ID to album $THUMB_ALBUM_ID..."
+	if catbox album add -s "$THUMB_ALBUM_ID" "$CATBOX_THUMB_ID" > /dev/null; then
+		echo "thumbnail successfully added to the album."
+	else
+		echo "error adding thumbnail $CATBOX_THUMB_ID to album $THUMB_ALBUM_ID." >&2
+		catbox delete "$CATBOX_VIDEO_ID" > /dev/null
+		catbox delete "$CATBOX_THUMB_ID" > /dev/null
+		exit
+	fi
+else
+	echo "error uploading thumbnail to catbox." >&2
+	catbox delete "$CATBOX_VIDEO_ID" > /dev/null
+	exit
+fi
+
+echo "generating shortened url..."
+SHORT_URL=$(curl \
+	-s \
+	-X POST "https://autocompressor.net/av1/mkshortlink" \
+	-H "Content-Type: application/json" \
+	-d @<(cat <<EOF
+	{
+		"v": "$CATBOX_VIDEO_URL",
+		"i": "$CATBOX_THUMB_URL",
+		"w": "$VIDEO_WIDTH",
+		"h": "$VIDEO_HEIGHT"
+	}
+EOF
+	) | jq -r '.shortLink')
+
+OUTPUT_URL="https://autocompressor.net/av1?s=$SHORT_URL"
+MASK_TEXT='link'
+FORMATTED_OUTPUT_URL="[$MASK_TEXT]($OUTPUT_URL)"
+
+case "$XDG_SESSION_TYPE" in
+	x11)
+		echo -n "$FORMATTED_OUTPUT_URL" \ 
+			| xsel --clipboard --input \ 
+			&& echo "success, with url $OUTPUT_URL. formatted url copied to clipboard."
+		;;
+	wayland)
+		echo -n "$FORMATTED_OUTPUT_URL" \ 
+			| wl-copy \ 
+			&& echo "success, with url $OUTPUT_URL. formatted url copied to clipboard."
+		;;
+	*)
+		echo "sucess, with url $OUTPUT_URL."
+		;;
+esac

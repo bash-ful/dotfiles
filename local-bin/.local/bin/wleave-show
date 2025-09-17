@@ -1,0 +1,4 @@
+#!/bin/sh
+
+pgrep "^wleave$" \
+    || wleave -p layer-shell -m 100 -R 390 -L 390 -b 2 -c 35 -r 35
