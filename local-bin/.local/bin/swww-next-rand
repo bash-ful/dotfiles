@@ -9,7 +9,7 @@ export SWWW_TRANSITION_DURATION=$(((RANDOM % 3 + 1) + ($RANDOM % 10) / 10))
 export SWWW_TRANSITION_ANGLE=$((RANDOM % 361))
 export SWWW_TRANSITION_POS=$((RANDOM % 1367)),$((RANDOM % 769))
 
-current_image_path=$(swww query | cut -d' ' -f8-)
+current_image_path=$(swww query | cut -d' ' -f9-)
 full_image_path=$(find $wallpaper_dir -type f | shuf -n 1)
 image_count=$(find $wallpaper_dir -type f | wc -l)
 
