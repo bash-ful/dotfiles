@@ -21,6 +21,6 @@ source_env() {
 }
 
 source_env "$HOME/.cargo/env"
-source_env "$HOME/.private_env"
+source_env "$HOME/.env.private"
 
 export SCREENSHOTS_DIR="$HOME/Pictures/Screenshots"
