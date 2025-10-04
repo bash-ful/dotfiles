@@ -1,5 +1,5 @@
 [[ -f $HOME/.aliases ]] && source $HOME/.aliases
-source $HOME/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+[[ -f $HOME/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh ]] && source $HOME/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 
 autoload -Uz compinit
 compinit

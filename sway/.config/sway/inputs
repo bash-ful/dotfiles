@@ -1,20 +1,7 @@
 # sway-input
-input "12538:4416:INSTANT_RAZERmini_Gaming_Mouse" {
-    accel_profile flat
-  }
-input "6392:4032:USB_GAMING_MOUSE" {
-    accel_profile flat
-    pointer_accel 0.3
-}
-
-input "2522:34614:SIGMACHIP_USB_Mouse" {
-    accel_profile flat
-    pointer_accel 0.3
-}
-
 input type:pointer {
     accel_profile flat
-    pointer_accel 0.3
+    pointer_accel 0.35
 }
 input type:keyboard {
     repeat_delay 245

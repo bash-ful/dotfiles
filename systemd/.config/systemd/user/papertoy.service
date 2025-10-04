@@ -1,0 +1,12 @@
+[Unit]
+Description=Papertoy daemon
+BindsTo=graphical-session.target
+Requires=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=exec
+ExecStart=%h/.local/bin/papertoy %h/Pictures/wallpapers/shaders/xmb.frag
+
+[Install]
+WantedBy=graphical-session.target

@@ -7,7 +7,7 @@ After=graphical-session.target
 
 [Service]
 Type=notify
-ExecStart=swww-daemon --format xrgb
+ExecStart=swww-daemon --format argb
 
 [Install]
 WantedBy=graphical-session.target

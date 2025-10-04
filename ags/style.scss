@@ -1,0 +1,37 @@
+$font-family: "FOT-NewRodin Pro";
+$font-weight: bold;
+$category-size: 96px;
+// just pick a large enough value 
+$category-box-pading-right: $category-size * 24;
+
+* {
+  font-family: $font-family;
+  font-weight: $font-weight;
+  font-size: 20px;
+  text-shadow: 3px 3px 4px rgba(0, 0, 0, 075), 3px 3px 4px rgba(0, 0, 0, 0.75), 0 0 3px rgba(255, 255, 255, 0.25);
+  color: white;
+}
+
+Bar {
+  // background: rgba(255, 255, 255, 0.5);
+  background: transparent;
+  padding: 8px;
+}
+
+CategoryBox {
+  padding-left: calc($category-size * 1);
+  padding-right: $category-box-pading-right;
+  background-color: aqua;
+}
+
+Entry {
+  background: lightblue;
+}
+
+Entry-2 {
+  background: lightgreen;
+}
+
+New {
+  background: none;
+}

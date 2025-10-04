@@ -7,18 +7,20 @@ include {
 	/etc/sway/config.d/*
 	./swayfx
 	./keybinds
+	./aura-theme.conf
 }
 
 gaps {
 	outer 0
-	inner 3
+	inner 0
 }
 
 font $font
 seat seat0 xcursor_theme Bibata-Modern-Ice 24
+seat seat0 hide_cursor when-typing disable
 
-client.focused #3f3fafef #24246ff5 #ffffff #ffd700cc
-client.urgent #8f2424f5 #af3f3fef #ffffff #ffd700cc
+# client.focused #3f3fafef #24246ff5 #ffffff #ffd700cc
+# client.urgent #8f2424f5 #af3f3fef #ffffff #ffd700cc
 
 focus_follows_mouse no
 workspace_layout default
