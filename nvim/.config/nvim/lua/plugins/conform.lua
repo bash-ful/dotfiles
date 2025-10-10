@@ -10,6 +10,7 @@ return {
 				scss = { "prettierd", "prettier" },
 				js = { "prettierd", "prettier" },
 				ts = { "prettierd", "prettier" },
+				c = { "clang-format" },
 			},
 			default_format_opts = {
 				lsp_format = "fallback",
@@ -17,9 +18,6 @@ return {
 			format_on_save = {
 				lsp_format = "fallback",
 				timeout_ms = 500,
-			},
-			format_after_save = {
-				lsp_format = "fallback",
 			},
 			notify_no_formatters = true,
 		},

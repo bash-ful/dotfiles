@@ -1,23 +1,27 @@
 #!/bin/sh
 
 wallpaper_dir=$1
-export SWWW_TRANSITION=$(printf "simple\nfade\nleft\nright\ntop\nbottom\nwipe\nwave\ngrow\ncenter\nany\nouter" | shuf -n 1)
+SWWW_TRANSITION=$(printf "simple\nfade\nleft\nright\ntop\nbottom\nwipe\nwave\ngrow\ncenter\nany\nouter" | shuf -n 1)
+export SWWW_TRANSITION
 # export SWWW_TRANSITION="random"
 export SWWW_TRANSITION_FPS=240
 export SWWW_TRANSITION_STEP=24
-export SWWW_TRANSITION_DURATION=$(((RANDOM % 3 + 1) + ($RANDOM % 10) / 10))
-export SWWW_TRANSITION_ANGLE=$((RANDOM % 361))
-export SWWW_TRANSITION_POS=$((RANDOM % 1367)),$((RANDOM % 769))
+SWWW_TRANSITION_DURATION="$(shuf -i 1-3 -n 1)"
+export SWWW_TRANSITION_DURATION
+SWWW_TRANSITION_ANGLE=$(shuf -i 0-360 -n 1)
+export SWWW_TRANSITION_ANGLE
+SWWW_TRANSITION_POS="$(shuf -i 0-1366 -n 1),$(shuf -i 0-768 -n 1)"
+export SWWW_TRANSITION_POS
 
 current_image_path=$(swww query | cut -d' ' -f9-)
-full_image_path=$(find $wallpaper_dir -type f | shuf -n 1)
-image_count=$(find $wallpaper_dir -type f | wc -l)
+full_image_path=$(find "$wallpaper_dir" -type f | shuf -n 1)
+image_count=$(find "$wallpaper_dir" -type f | wc -l)
 
 # this checks two things:
 # 1. the images in the directory (and subdirs) are greater than 1
 # 2. the current image being used and the image to be used
 # if both are met, reroll the image to be used
 while [ "$image_count" -gt 1 ] && [ "$current_image_path" -ef "$full_image_path" ]; do
-    full_image_path=$(find $wallpaper_dir -type f | shuf -n 1)
+	full_image_path=$(find "$wallpaper_dir" -type f | shuf -n 1)
 done
-swww img --filter "Nearest" -- $full_image_path
+swww img --filter "Nearest" -- "$full_image_path"

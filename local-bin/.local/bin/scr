@@ -29,10 +29,10 @@ cleanup() {
 			"saved at $OUTPUT_FULL"
 	fi
 }
-trap cleanup EXIT 
+trap cleanup EXIT
 
-exec 200>"$LOCKFILE"
-if ! flock -xn 200 ; then
+exec 6>"$LOCKFILE"
+if ! flock -xn 6; then
 	exit 1
 fi
 
@@ -46,8 +46,17 @@ notify-send \
 sleep 0.6
 i=1
 while [ -e "$OUTPUT_FULL" ]; do
-	OUTPUT_FILENAME="$BASE_FILENAME_($i)"
+	OUTPUT_FILENAME="${BASE_FILENAME}_($i)"
 	OUTPUT_FULL="$OUTPUT_DIR/$OUTPUT_FILENAME.$OUTPUT_EXT"
-	i=$((i+1))
+	i=$((i + 1))
 done
-gpu-screen-recorder -w "screen" -f $FRAMERATE -a $AUDIO_DEVICES -q $VIDEO_QUALITY -k $VIDEO_CODEC -ac $AUDIO_CODEC -fm $FRAMERATE_MODE -bm $BITRATE_MODE -o $OUTPUT_FULL
+gpu-screen-recorder \
+	-w "screen" \
+	-f $FRAMERATE \
+	-a $AUDIO_DEVICES \
+	-q $VIDEO_QUALITY \
+	-k $VIDEO_CODEC \
+	-ac $AUDIO_CODEC \
+	-fm $FRAMERATE_MODE \
+	-bm $BITRATE_MODE \
+	-o "$OUTPUT_FULL"

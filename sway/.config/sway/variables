@@ -1,7 +1,7 @@
 set {
 	$scripts_dir "$HOME/.local/bin"
 	$grim_dir "$HOME/Pictures/Screenshots"
-	$font "pango:D-DIN 12"
+	$font "pango:Monaspace Neon 10"
 	$menu fuzzel || pkill fuzzel
 	$term footclient
 	$browser qutebrowser

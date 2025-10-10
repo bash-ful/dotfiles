@@ -1,0 +1,44 @@
+add_newline = false
+palette = "aura"
+format = '''[\[](white bold)$username@$hostname: $directory[\]](white bold)
+$character'''
+
+[username]
+style_user = "pink bold"
+style_root = "red bold"
+show_always = true
+format = "[$user]($style)"
+
+[hostname]
+ssh_only = false
+style = "blue bold"
+format = "[$hostname]($style)"
+
+[directory]
+truncation_length = 8
+truncation_symbol = ".../"
+style = "bold yellow"
+format = "[$path]($style)[$read_only]($read_only_style)"
+
+[character]
+format = "$symbol "
+success_symbol = "[\\$](green bold)"
+error_symbol = "[\\$](green bold)"
+
+# https://github.com/daltonmenezes/aura-theme/tree/main/packages/color-palettes
+[palettes.aura]
+purple = "#a277ff"
+darkpurple = "#29263c"
+green = "#61ffca"
+orange = "#ffca85"
+pink = "#f694ff"
+blue = "#82e2ff"
+red = "#ff6767"
+white = "#edecee"
+gray = "#6d6d6d"
+black = "#15141b"
+yellow = "#ffca85"
+# X11 gold
+gold = "#ffd700"
+# AI generated aura cyan
+cyan = "#93e2d5"

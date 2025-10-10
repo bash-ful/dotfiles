@@ -1,14 +1,30 @@
-#!/usr/bin/env bash
+#!/bin/sh
 out_path=/mnt/big/media/videos/wf-recorder
 filename=wf-$(date +'%Y-%m-%d--%H-%M-%S.mp4')
 
 sendWfNotif() {
-    notify-send -a 'wf-recorder' -- 'wf-recorder' "$1"
+	notify-send \
+		-a 'wf-recorder' \
+		-- \
+		'wf-recorder' \
+		"$1"
 }
 
-pkill --signal SIGINT '^wl-screenrec$' \
-    && { sleep 0.250 \
-    && sendWfNotif 'recording terminated!' ; } \
-    || { sendWfNotif 'recording...' \
-    && sleep 0.450 \
-    && wf-recorder -B 60 -D --audio='alsa_output.pci-0000_07_00.6.analog-stereo.monitor' -g '${slurp}' -c libx264rgb -p tune='fastdecode' -p crf=31 -p size=1280:720 -r 60 -C libopus -f $out_path/$filename ; }
+if pkill --signal SIGINT '^wl-screenrec$'; then
+	sleep 0.250
+	sendWfNotif 'recording terminated!'
+else
+	sendWfNotif 'recording...'
+	sleep 0.450
+	wf-recorder \
+		-B 60 \
+		-D \
+		--audio='alsa_output.pci-0000_07_00.6.analog-stereo.monitor' \
+		-c libx264rgb \
+		-p tune='fastdecode' \
+		-p crf=31 \
+		-p size=1280:720 \
+		-r 60 \
+		-C libopus \
+		-f "$out_path/$filename"
+fi

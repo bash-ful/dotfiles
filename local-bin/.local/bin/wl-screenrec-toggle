@@ -1,15 +1,19 @@
-#!/usr/bin/env bash
+#!/bin/bash
 out_path=$HOME/Videos/wl-screenrec
 filename=wl-$(date +'%Y-%m-%d_%H-%M-%S')
 
 sendWfNotif() {
-    notify-send -a 'wl-screenrec' -- 'wl-screenrec' "$1"
+	notify-send -a 'wl-screenrec' -- 'wl-screenrec' "$1"
 }
 
-pkill --signal SIGINT '^wl-screenrec$' \
-    && { sleep 0.250 \
-    && sendWfNotif 'recording terminated!' ; } \
-    || { sendWfNotif 'recording...' \
-    && sleep 0.450 \
-	&& wl-screenrec --audio --audio-device "alsa_output.pci-0000_07_00.6.analog-stereo" -f "${out_path}/${filename}.mp4" ; }
-
+if pkill --signal SIGINT '^wl-screenrec$'; then
+	sleep 0.250
+	sendWfNotif 'recording terminated!'
+else
+	sendWfNotif 'recording...'
+	sleep 0.450
+	wl-screenrec \
+		--audio \
+		--audio-device "alsa_output.pci-0000_07_00.6.analog-stereo" \
+		-f "${out_path}/${filename}.mp4"
+fi

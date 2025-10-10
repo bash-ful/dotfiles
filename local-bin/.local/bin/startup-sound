@@ -2,7 +2,7 @@
 delay_in_seconds=0.225
 volume=0.57
 
-file=$(find $HOME/Music/notifications/startup -type f | shuf -n 1)
+file=$(find "$HOME/Music/notifications/startup" -type f | shuf -n 1)
 if [ -f "$file" ]; then
 	sleep $delay_in_seconds
 	pw-play --volume=$volume "$file"

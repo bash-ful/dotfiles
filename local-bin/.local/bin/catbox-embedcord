@@ -90,13 +90,13 @@ FORMATTED_OUTPUT_URL="[$MASK_TEXT]($OUTPUT_URL)"
 
 case "$XDG_SESSION_TYPE" in
 	x11)
-		echo -n "$FORMATTED_OUTPUT_URL" \ 
-			| xsel --clipboard --input \ 
+		echo -n "$FORMATTED_OUTPUT_URL" \
+			| xsel --clipboard --input \
 			&& echo "success, with url $OUTPUT_URL. formatted url copied to clipboard."
 		;;
 	wayland)
-		echo -n "$FORMATTED_OUTPUT_URL" \ 
-			| wl-copy \ 
+		echo -n "$FORMATTED_OUTPUT_URL" \
+			| wl-copy \
 			&& echo "success, with url $OUTPUT_URL. formatted url copied to clipboard."
 		;;
 	*)

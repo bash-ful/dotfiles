@@ -1,27 +1,33 @@
 #!/bin/sh
 
 sendWfNotif() {
-    notify-send -a 'wlsunset' -- 'wlsunset' "$1"
+	notify-send \
+		-a 'wlsunset' \
+		-- \
+		'wlsunset' \
+		"$1"
 }
 
 printUsage() {
->&2 cat<<EOF
+	>&2 cat <<EOF
 usage: $(basename "$0") start|toggle
     $(tput bold)start$(tput sgr0) is for the startup, and does not send a notification
     $(tput bold)toggle$(tput sgr0) toggles the program on or off and sends a notification
 EOF
 }
-if [ "$1" = 0 ] ; then
-    printUsage
-    exit 1
-elif [ "$1" = "start" ] ; then
-    wlsunset -l $LATITUDE -L $LONGITUDE
-    exit 0
-elif [ "$1" = "toggle" ] ; then
-    pkill "^wlsunset$" \
-        && sendWfNotif 'toggled off.' \
-        || { wlsunset -l $LATITUDE -L $LONGITUDE \
-        & sendWfNotif 'toggled on.' ; }
+if [ "$1" = 0 ]; then
+	printUsage
+	exit 1
+elif [ "$1" = "start" ]; then
+	wlsunset -l "$LATITUDE" -L "$LONGITUDE"
+	exit 0
+elif [ "$1" = "toggle" ]; then
+	if pkill "^wlsunset$"; then
+		sendWfNotif 'toggled off.'
+	else
+		wlsunset -l "$LATITUDE" -L "$LONGITUDE" &&
+			sendWfNotif 'toggled on.'
+	fi
 else
-    printUsage
+	printUsage
 fi
