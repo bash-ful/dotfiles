@@ -1,21 +1,12 @@
 # for_window blocks
 for_window {
+    [class="steam_app_*"] allow_tearing yes
+    [shell="xwayland"] title_format "[xw] %title"
+
     [title="Picture-in-Picture|Picture in picture"] dim_inactive 0, sticky enable, floating enable
     [app_id="galculator"] floating enable
     [title="Wine System Tray"] move container to scratchpad
     [app_id="lxqt-policykit-agent"] floating enable
-    # [app_id="mpv"] floating enable, move position 0 ppt 0 ppt, sticky enable, dim_inactive 0.0
-    [class="TerraTechLinuxx64"] floating disable, fullscreen disable
- 
-    # [instance="discord"] move window to scratchpad
-    [window_role="pop-up"] floating enable
-    [window_role="Pop-up"] floating enable
-    [window_role="bubble"] floating enable
-    [window_role="Bubble"] floating enable
-    [window_role="dialog"] floating enable
-    [window_role="Dialog"] floating enable
-    [window_type="dialog"] floating enable
-    [window_type="Dialog"] floating enable
     [class="dialog"] floating enable
     [class="Dialog"] floating enable
     [window_role="task_dialog"] floating enable
@@ -31,9 +22,11 @@ assign {
 
     [app_id="lutris"] → 3
     [app_id="org\.prismlauncher\.PrismLauncher"] → 3
-    [class="epicgameslauncher.exe|steam"] → 3
     [title="Wine System Tray|Steam$"] → 3
+    [instance="^steamwebhelper$"] → 3
+    [class="r2modman"] → 3
  
+    [class="steam_app_*"] → 4
     [class="borderlands3.exe"] → 4
     [class="TerraTechLinux64"] → 4
     [class="Monkeytype-desktop"] → 4
@@ -48,12 +41,12 @@ assign {
     [app_id="pyradio"] → 5
     [app_id="pavucontrol"] → 5
     [app_id="jamesdsp"] → 5 
-    # [app_id="mpv"] → 5
 
     [class="Caprine"] → 6
     [class="WebCord"] → 6
     [class="discord"] → 6
     [class="vesktop"] → 6
+    [app_id="vesktop"] → 6
  
     [app_id="org.qbittorrent.qBittorrent"] → 7
 }                                          

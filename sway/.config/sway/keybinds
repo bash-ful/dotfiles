@@ -9,12 +9,15 @@ bindsym {
 	Control+Shift+Print exec grimshot --notify copy area
 	$mod+r exec runapp -- $menu
 	$mod+Shift+Return exec runapp -- "$scripts_dir/wleave-show"
-	XF86AudioRaiseVolume exec volumectl up
-	XF86AudioLowerVolume exec volumectl down
+	XF86AudioRaiseVolume exec $scripts_dir/adjust-volume 5%+
+	XF86AudioLowerVolume exec $scripts_dir/adjust-volume 5%-
 	--no-repeat XF86AudioMute exec volumectl toggle
 	XF86AudioMicMute exec volumectl toggle
 	# --no-repeat $mod+Next exec "$scripts_dir/wl-screenrec-toggle"
-	--no-repeat $mod+Next exec "$HOME/.local/bin/scr"
+
+	--no-repeat $mod+Next exec "$HOME/.local/bin/gsr-sig -s"
+	--no-repeat $mod+Shift+Next exec "$HOME/.local/bin/gsr-sig -sr"
+	--no-repeat $mod+Alt+Next exec "$HOME/.local/bin/gsr-sig -k"
 	$mod+backslash exec "$scripts_dir/wlsunset-c toggle"
 	--no-repeat $mod+i exec "$scripts_dir/swww-next-rand $HOME/Pictures/wallpapers/live"
 	$mod+b exec runapp -- $browser

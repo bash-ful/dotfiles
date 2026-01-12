@@ -15,6 +15,24 @@ gaps {
 	inner 0
 }
 
+bar {
+	swaybar_command waybar
+	}
+# bar {
+#     position top
+#     status_command /usr/bin/i3status-rs
+#     font pango:monospace, FontAwesome:size 9.5
+#     icon_theme Papirus-Dark
+#     colors {
+#         separator #6d6d6d
+#         background #15141b
+#         statusline #edecee
+#         focused_workspace #8464c6 #8464c6 #edecee
+#         active_workspace #2d2d2d #2d2d2d #edecee
+#         inactive_workspace #2d2d2d #2d2d2d #6d6d6d
+#         urgent_workspace #ff6767 #ff6767 #edecee
+#     }
+# }
 font $font
 seat seat0 xcursor_theme Bibata-Modern-Ice 24
 seat seat0 hide_cursor when-typing disable

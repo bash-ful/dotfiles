@@ -1,9 +1,9 @@
 # sway-input
 input type:pointer {
     accel_profile flat
-    pointer_accel 0.35
+    pointer_accel 0
 }
 input type:keyboard {
-    repeat_delay 245
+    repeat_delay 220
     repeat_rate 30
 }

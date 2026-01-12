@@ -2,5 +2,7 @@
 exec {
 #	systemctl --user start sway-session.target
 	$scripts_dir/wlsunset-c start
+	tail -f /tmp/wobpipe | wob
 	lxqt-policykit-agent
+	exec wl-paste -t text --watch clipman store --no-persist
 }
