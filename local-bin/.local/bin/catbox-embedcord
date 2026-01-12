@@ -50,54 +50,61 @@ else
 	exit
 fi
 
-echo "uploading thumbnail $THUMB_FILE to catbox..."
-if CATBOX_THUMB_URL=$(catbox upload "$THUMB_FILE"); then
-	echo "thumbnail uploaded to catbox successfully."
-	CATBOX_THUMB_ID=$(sed -e 's|https://files.catbox.moe/||g' <(echo "$CATBOX_THUMB_URL"))
-	echo "adding thumbnail $CATBOX_THUMB_ID to album $THUMB_ALBUM_ID..."
-	if catbox album add -s "$THUMB_ALBUM_ID" "$CATBOX_THUMB_ID" > /dev/null; then
-		echo "thumbnail successfully added to the album."
+OUTPUT_URL="$CATBOX_VIDEO_URL"
+# use autocompressor
+if [ "$2" = "-ac" ]; then
+
+	echo "uploading thumbnail $THUMB_FILE to catbox..."
+	if CATBOX_THUMB_URL=$(catbox upload "$THUMB_FILE"); then
+		echo "thumbnail uploaded to catbox successfully."
+		CATBOX_THUMB_ID=$(sed -e 's|https://files.catbox.moe/||g' <(echo "$CATBOX_THUMB_URL"))
+		echo "adding thumbnail $CATBOX_THUMB_ID to album $THUMB_ALBUM_ID..."
+		if catbox album add -s "$THUMB_ALBUM_ID" "$CATBOX_THUMB_ID" > /dev/null; then
+			echo "thumbnail successfully added to the album."
+		else
+			echo "error adding thumbnail $CATBOX_THUMB_ID to album $THUMB_ALBUM_ID." >&2
+			catbox delete "$CATBOX_VIDEO_ID" > /dev/null
+			catbox delete "$CATBOX_THUMB_ID" > /dev/null
+			exit
+		fi
 	else
-		echo "error adding thumbnail $CATBOX_THUMB_ID to album $THUMB_ALBUM_ID." >&2
+		echo "error uploading thumbnail to catbox." >&2
 		catbox delete "$CATBOX_VIDEO_ID" > /dev/null
-		catbox delete "$CATBOX_THUMB_ID" > /dev/null
 		exit
 	fi
-else
-	echo "error uploading thumbnail to catbox." >&2
-	catbox delete "$CATBOX_VIDEO_ID" > /dev/null
-	exit
+
+	echo "generating shortened url..."
+	SHORT_URL=$(curl \
+		-s \
+		-X POST "https://autocompressor.net/av1/mkshortlink" \
+		-H "Content-Type: application/json" \
+		-d @<(cat <<EOF
+		{
+			"v": "$CATBOX_VIDEO_URL",
+			"i": "$CATBOX_THUMB_URL",
+			"w": "$VIDEO_WIDTH",
+			"h": "$VIDEO_HEIGHT"
+		}
+EOF
+		) | jq -r '.shortLink')
+	OUTPUT_URL="https://autocompressor.net/av1?s=$SHORT_URL"
 fi
 
-echo "generating shortened url..."
-SHORT_URL=$(curl \
-	-s \
-	-X POST "https://autocompressor.net/av1/mkshortlink" \
-	-H "Content-Type: application/json" \
-	-d @<(cat <<EOF
-	{
-		"v": "$CATBOX_VIDEO_URL",
-		"i": "$CATBOX_THUMB_URL",
-		"w": "$VIDEO_WIDTH",
-		"h": "$VIDEO_HEIGHT"
-	}
-EOF
-	) | jq -r '.shortLink')
-
-OUTPUT_URL="https://autocompressor.net/av1?s=$SHORT_URL"
 MASK_TEXT='link'
 FORMATTED_OUTPUT_URL="[$MASK_TEXT]($OUTPUT_URL)"
-
 case "$XDG_SESSION_TYPE" in
 	x11)
 		echo -n "$FORMATTED_OUTPUT_URL" \
 			| xsel --clipboard --input \
 			&& echo "success, with url $OUTPUT_URL. formatted url copied to clipboard."
+		# echo -n "$CATBOX_VIDEO_URL" \
+			# | xsel --clipboard --input \
+			# && echo "success, with url $CATBOX_VIDEO_URL. formatted url copied to clipboard."
 		;;
 	wayland)
-		echo -n "$FORMATTED_OUTPUT_URL" \
-			| wl-copy \
-			&& echo "success, with url $OUTPUT_URL. formatted url copied to clipboard."
+			# wl-copy "$CATBOX_VIDEO_URL" \
+			wl-copy "$FORMATTED_OUTPUT_URL" \
+			&& echo "success, with url $CATBOX_VIDEO_URL. formatted url copied to clipboard."
 		;;
 	*)
 		echo "sucess, with url $OUTPUT_URL."

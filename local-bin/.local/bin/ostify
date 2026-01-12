@@ -1,0 +1,10 @@
+#!/bin/sh
+
+INPUT_AUDIO_FILE=$1
+INPUT_AUDIO_FILENAME=$(basename -- "$INPUT_AUDIO_FILE")
+INPUT_IMAGE_FILE=$2
+INPUT_IMAGE_RES=$(identify -format "%w:%h" "$INPUT_IMAGE_FILE")
+OUTPUT_RESOLUTION=${3:-$INPUT_IMAGE_RES}
+AUDIO_BITRATE_KB=${4:-128}
+AUDIO_DURATION=$(ffprobe -v error -show_entries format=duration -of default=nk=1:nw=1 "$INPUT_AUDIO_FILE")
+ffmpeg -r 1 -loop 1 -y -i "$INPUT_IMAGE_FILE" -i "$INPUT_AUDIO_FILE" -vf "scale=$OUTPUT_RESOLUTION:flags=lanczos" -c:a libopus -b:a "$AUDIO_BITRATE_KB"k -c:v libvpx-vp9 -lossless 1 -shortest -to "$AUDIO_DURATION" "${INPUT_AUDIO_FILENAME%.*}.webm"

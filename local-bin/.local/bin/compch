@@ -1,0 +1,27 @@
+#!/bin/sh
+if [ "$#" -eq 0 ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+	echo "usage: $(basename -- "$0") FILE [TARGET_FILESIZE_MB|6.1] [AUDIO_BITRATE_KB|128] [OUTPUT_WIDTH:OUTPUT_HEIGHT|input file resolution]"
+	exit
+fi
+
+INPUT_FILE="$1"
+if [ ! -f "$INPUT_FILE" ]; then
+	echo "$(basename -- "$0"): file not found: $INPUT_FILE" >&2
+	exit 1
+fi
+
+TARGET_FILESIZE_KB="${2:-6.1}"
+AUDIO_BITRATE_KB="${3:-128}"
+INPUT_RESOLUTION=$(ffprobe -i "$INPUT_FILE" -show_entries stream=width,height -v quiet -of csv="p=0" | tr -d "\n" | tr "," ":")
+OUTPUT_RESOLUTION="${4:-$INPUT_RESOLUTION}"
+DURATION_SECONDS=$(ffprobe -i "$INPUT_FILE" -show_entries format=duration -v quiet -of csv="p=0")
+
+# this is mainly for some overhead that the
+# conversion introduces, causing files to
+# exceed the target filesize
+BITRATE_COEFFICIENT=1
+TARGET_BITRATE=$(awk "BEGIN { printf \"%d\", (($TARGET_FILESIZE_KB*8192/$DURATION_SECONDS) - $AUDIO_BITRATE_KB) * $BITRATE_COEFFICIENT }")
+
+# printf "file duration: %s\ntarget bitrate: %s" "$DURATION_SECONDS" "$TARGET_BITRATE"
+ffmpeg -i "$1" -vf "scale=$OUTPUT_RESOLUTION:flags=lanczos+accurate_rnd,format=yuv420p" -c:v libvpx-vp9 -b:v "$TARGET_BITRATE"k -pass 1 -an -sn -f null /dev/null &&
+	ffmpeg -i "$1" -vf "scale=$OUTPUT_RESOLUTION:flags=lanczos+accurate_rnd,format=yuv420p" -c:v libvpx-vp9 -b:v "$TARGET_BITRATE"k -pass 2 -c:a libopus -b:a "$AUDIO_BITRATE_KB"k -sn output.webm

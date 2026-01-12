@@ -1,0 +1,13 @@
+#!/bin/sh
+
+WOBPIPE=/tmp/wobpipe
+[ "$#" -ne 1 ] && exit 1
+[ ! -p "$WOBPIPE" ] && rm "$WOBPIPE"
+if [ ! -e "$WOBPIPE" ]; then
+	mkfifo "$WOBPIPE"
+	pkill wob
+fi
+pgrep wob || tail -f "$WOBPIPE" | wob
+
+amixer sset Master "$1" >/dev/null
+amixer sget Master | awk -F "[][]" '/Left:/ { print $2 } ' | tr -d "%" >/tmp/wobpipe

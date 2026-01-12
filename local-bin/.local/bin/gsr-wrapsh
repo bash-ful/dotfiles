@@ -1,0 +1,38 @@
+#!/bin/sh
+OUTPUT_DIR=${GSR_OUTPUT_DIR:-"$HOME/Videos/gpu-screen-recorder"}
+FRAMERATE=60
+# separate multiple audio device/application with pipe |
+AUDIO_DEVICES="default_input|app-inverse:Floorp|app-inverse:Firefox"
+VIDEO_QUALITY="very_high"
+VIDEO_CODEC="h265"
+AUDIO_CODEC="opus"
+FRAMERATE_MODE="cfr"
+BITRATE_MODE="qp"
+
+flock -n /tmp/gsr.lock \
+	notify-send \
+	-a "gpu-screen-recorder" \
+	-t 500 \
+	-i record \
+	-e \
+	-r 2 \
+	"gpu-screen-recorder" \
+	"Replay mode on" &&
+	sleep 0.6 &&
+	gpu-screen-recorder \
+		-w "screen" \
+		-keyint "2.0" \
+		-f $FRAMERATE \
+		-a "$AUDIO_DEVICES" \
+		-q $VIDEO_QUALITY \
+		-k $VIDEO_CODEC \
+		-ac $AUDIO_CODEC \
+		-fm $FRAMERATE_MODE \
+		-bm $BITRATE_MODE \
+		-s "1280x720" \
+		-o "$OUTPUT_DIR" \
+		-ro "$OUTPUT_DIR" \
+		-c mp4 \
+		-encoder "gpu" \
+		-r 120 \
+		-v "no"

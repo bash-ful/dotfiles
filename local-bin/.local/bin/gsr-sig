@@ -1,0 +1,76 @@
+#!/bin/sh
+IS_RECORDING_CHECK="/tmp/gsr-record"
+OUTPUT_DIR=${GSR_OUTPUT_DIR:-"$HOME/Videos/gpu-screen-recorder"}
+
+if [ ! $# -eq 1 ]; then
+	echo "$0: expected 1 argument; got $#" >&2
+	exit 1
+fi
+
+if ! pgrep -f "gpu-screen-recorder" >/dev/null 2>&1; then
+	notify-send \
+		-a "gpu-screen-recorder" \
+		-t 3000 \
+		-e \
+		-r 2 \
+		"gpu-screen-recorder" \
+		"gpu screen-recorder is not running!"
+	exit 1
+fi
+
+case $1 in
+"-k")
+	pkill -SIGTERM -f "gpu-screen-recorder" &&
+		notify-send \
+			-a "gpu-screen-recorder" \
+			-t 3000 \
+			-i stop \
+			-e \
+			-r 2 \
+			"gpu-screen-recorder" \
+			"terminated successfully"
+	exit
+	;;
+"-s")
+	if [ ! -e "$IS_RECORDING_CHECK" ]; then
+		touch "$IS_RECORDING_CHECK"
+		notify-send \
+			-a "gpu-screen-recorder" \
+			-t 500 \
+			-i stop \
+			-e \
+			-r 2 \
+			"Recording started"
+		sleep 0.5
+		pkill -SIGRTMIN -f "gpu-screen-recorder"
+	else
+		pkill -SIGRTMIN -f "gpu-screen-recorder" &&
+			sleep 0.1 &&
+			notify-send \
+				-a "gpu-screen-recorder" \
+				-t 3000 \
+				-i stop \
+				-e \
+				-r 2 \
+				"Recording stopped" \
+				"saved at $OUTPUT_DIR"
+		rm "$IS_RECORDING_CHECK"
+	fi
+	exit
+	;;
+"-sr")
+	pkill -SIGUSR1 -f "gpu-screen-recorder" &&
+		{
+			sleep 0.1
+			notify-send \
+				-a "gpu-screen-recorder" \
+				-t 2000 \
+				-i stop \
+				-e \
+				-r 2 \
+				"Replay saved" \
+				"saved at $OUTPUT_DIR"
+		}
+	exit
+	;;
+esac

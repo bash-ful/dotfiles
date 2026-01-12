@@ -1,0 +1,20 @@
+#!/bin/sh
+
+CBZ_FILE=$1
+TMPDIR=/home/celeste/tmp/
+CBZ_TMPDIR=$(mktemp -p "$TMPDIR" -d -- swayimg-cbz.XXXXXXXX)
+
+trap 'rm -r "$CBZ_TMPDIR"' EXIT
+unzip "$CBZ_FILE" -d "$CBZ_TMPDIR"
+swayimg \
+	-o alpha \
+	-s width \
+	-c "viewer.loop=no" \
+	-c "viewer.position=top" \
+	-c "viewer.antialiasing=box" \
+	-c "viewer.history=2" \
+	-c "viewer.preload=2" \
+	-c "info.viewer.top_left=none" \
+	-c "info.viewer.top_right=index" \
+	-c "info.show=yes" \
+	"$CBZ_TMPDIR"
