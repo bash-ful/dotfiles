@@ -43,5 +43,13 @@ function preexec {
     print -Pn "\e]0;${(q)1}\e\\"
 }
 
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
+
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"

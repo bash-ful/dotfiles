@@ -1,0 +1,27 @@
+[[plugin.deps]]
+use = "Sonico98/allmytoes"
+rev = "acdc53b"
+hash = "7bf0ed68a45144b28041affd2a334ff"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:mime-ext"
+rev = "517619a"
+hash = "b1c06a6d5acdc99ad0c7996b21314cb2"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:full-border"
+rev = "517619a"
+hash = "3996fc74044bc44144b323686f887e1"
+
+[[plugin.deps]]
+use = "AnirudhG07/rich-preview"
+rev = "831234e"
+hash = "ed3363e256e210593f0f8e4cec3e36a9"
+
+[[plugin.deps]]
+use = "boydaihungst/mediainfo"
+rev = "31c143a"
+hash = "89e540aad3e89e4136446f10d1a88f1b"
+
+[flavor]
+deps = []

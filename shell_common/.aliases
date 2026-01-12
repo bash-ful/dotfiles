@@ -1,3 +1,4 @@
+alias grep="grep --color=auto"
 alias upd="sudo pacman -Syu"
 alias cupd="checkupdates"
 alias ls="eza"

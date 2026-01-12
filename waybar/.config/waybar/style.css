@@ -1,15 +1,19 @@
 * {
   /* `otf-font-awesome` is required to be installed for icons */
-  font-family: "Tahoma:style=Bold";
-  font-size: 12px;
+  font-family:
+    FontAwesome,
+    Monaspace Neon NF,
+    monospace;
+  font-size: 14px;
 }
 
 window#waybar {
-  background-color: rgb(220, 218, 213);
-
-  border-top: 2px solid white;
-  color: #000000;
+  background-color: #15141b;
+  color: #edecee;
+  transition-property: background-color;
+  transition-duration: 0.5s;
 }
+
 window#waybar.hidden {
   opacity: 0.2;
 }
@@ -43,31 +47,29 @@ button {
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
 button:hover {
   background: inherit;
-  box-shadow: inset 0 -3px #ffffff;
-}
-
-/* you can set a style on hover for any module like this */
-#pulseaudio:hover {
-  background-color: #a37800;
+  box-shadow: inset 0 -3px #8464c6;
 }
 
 #workspaces button {
-  padding: 0 5px;
-  background-color: transparent;
-  color: #ffffff;
+  padding: 0 3px;
+  color: #edecee;
+  transition:
+    background-color 0.2s,
+    box-shadow 0.2s;
 }
 
 #workspaces button:hover {
-  background: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
-#workspaces button.focused {
-  background-color: #64727d;
-  box-shadow: inset 0 -3px #ffffff;
+#workspaces button.focused,
+#workspaces button.active {
+  background-color: rgba(41, 38, 60, 0.5);
+  box-shadow: inset 0 -3px #a277ff;
 }
 
 #workspaces button.urgent {
-  background-color: #eb4d4b;
+  box-shadow: inset 0 -3px #ff6767;
 }
 
 #mode {
@@ -93,7 +95,7 @@ button:hover {
 #power-profiles-daemon,
 #mpd {
   padding: 0 10px;
-  color: rgb(0, 0, 0);
+  color: #edecee;
 }
 
 #window,
@@ -112,16 +114,8 @@ button:hover {
 }
 
 #clock {
-  margin: 6px 5px 6px 0;
-  box-shadow: 0 0 0 2px #ffffff, -0.5px -0.5px 0 1.5px #0a0a0a,
-    0 0 0 1px #c0c0c0, -0.5px -0.5px 0 0.5px #808080;
-}
-
-@keyframes blink {
-  to {
-    background-color: #ffffff;
-    color: #000000;
-  }
+  background-color: #ffca85;
+  color: #15141b;
 }
 
 label:focus {
@@ -129,16 +123,21 @@ label:focus {
 }
 
 #cpu {
-  background-color: #2ecc71;
-  color: #000000;
+  background-color: #edecee;
+  color: #15141b;
 }
 
 #memory {
-  background-color: #9b59b6;
+  background-color: #edecee;
+  color: #15141b;
 }
 
 #disk {
   background-color: #964b00;
+}
+
+#backlight {
+  background-color: #90b1b1;
 }
 
 #network {
@@ -150,12 +149,12 @@ label:focus {
 }
 
 #pulseaudio {
-  background-color: #f1c40f;
-  color: #000000;
+  background-color: #29263c;
+  color: #edecee;
 }
 
 #pulseaudio.muted {
-  background-color: #90b1b1;
+  background-color: transparent;
   color: #2a5c45;
 }
 
@@ -182,15 +181,16 @@ label:focus {
   background-color: #ffa000;
 }
 
-#tray {
-  margin: 6px 2px;
-  background-color: rgba(255, 255, 255, 0);
-  box-shadow: 0 0 0 2px #ffffff, -0.5px -0.5px 0 1.5px #0a0a0a,
-    0 0 0 1px #c0c0c0, -0.5px -0.5px 0 0.5px #808080;
+#temperature {
+  background-color: #f0932b;
 }
 
-#tray > .active {
-  -gtk-icon-effect: highlight;
+#temperature.critical {
+  background-color: #eb4d4b;
+}
+
+#tray {
+  background-color: transparent;
 }
 
 #tray > .passive {
@@ -200,6 +200,15 @@ label:focus {
 #tray > .needs-attention {
   -gtk-icon-effect: highlight;
   background-color: #eb4d4b;
+}
+
+#idle_inhibitor {
+  background-color: #2d3436;
+}
+
+#idle_inhibitor.activated {
+  background-color: #ecf0f1;
+  color: #2d3436;
 }
 
 #mpd {
@@ -219,19 +228,55 @@ label:focus {
   background-color: #51a37a;
 }
 
-/* user added */
-#taskbar button {
-  margin: 6px 4px;
-  padding: 0 6px;
-  color: #000000;
-  box-shadow: 0 0 0 2px #0a0a0a, -0.5px -0.5px 0 1.5px #ffffff,
-    0 0 0 1px #808080, -0.5px -0.5px 0 0.5px #c0c0c0;
-  transition-duration: 0;
+#language {
+  background: #00b093;
+  color: #740864;
+  padding: 0 5px;
+  margin: 0 5px;
+  min-width: 16px;
 }
 
-#taskbar button.active {
-  background-color: rgb(230, 228, 223);
-  box-shadow: 0 0 0 2px #ffffff, -0.5px -0.5px 0 1.5px #0a0a0a,
-    0 0 0 1px #c0c0c0, -0.5px -0.5px 0 0.5px #808080;
-  font-weight: 600;
+#keyboard-state {
+  background: #97e1ad;
+  color: #000000;
+  padding: 0 0px;
+  margin: 0 5px;
+  min-width: 16px;
+}
+
+#keyboard-state > label {
+  padding: 0 5px;
+}
+
+#keyboard-state > label.locked {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+#scratchpad {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+#scratchpad.empty {
+  background-color: transparent;
+}
+
+#privacy {
+  padding: 0;
+}
+
+#privacy-item {
+  padding: 0 5px;
+  color: white;
+}
+
+#privacy-item.screenshare {
+  background-color: #cf5700;
+}
+
+#privacy-item.audio-in {
+  background-color: #1ca000;
+}
+
+#privacy-item.audio-out {
+  background-color: #0069d4;
 }

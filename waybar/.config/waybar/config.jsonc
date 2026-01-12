@@ -1,23 +1,21 @@
 // -*- mode: jsonc -*-
 {
-  "layer": "top", // Waybar at top layer
-  "position": "bottom", // Waybar position (top|bottom|left|right)
-  "height": 20, // Waybar height (to be removed for auto height)
-  "width": 1366, // Waybar width
-  "spacing": 4, // Gaps between modules (4px)
-  "reload_style_on_change": true,
+  "layer": "top",
+  "position": "top", // top|bottom|left|right
+  "mode": "dock",
   "exclusive": true,
+  "height": 20, // Waybar height (to be removed for auto height)
+  "spacing": 0, // Gaps between modules (4px)
   // Choose the order of the modules
-  "modules-left": ["wlr/taskbar"],
-  // "modules-center": ["wlr/workspaces"],
-  "modules-right": ["tray", "clock"],
-  "wlr/taskbar": {
-    "format": "{icon} {title:.18}",
-    "icon-theme": "Win2000-scalable-icontheme-blackysgate",
-    "icon-size": 16,
-    "on-click": "minimize-raise",
-    "sort-by-app-id": false
-  },
+  "modules-left": [
+    "sway/workspaces",
+    "sway/mode",
+    "sway/scratchpad",
+    "custom/media",
+    "sway/window",
+  ],
+  "modules-center": [],
+  "modules-right": ["mpd", "pulseaudio", "cpu", "memory", "clock", "tray"],
   "mpd": {
     "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
     "format-disconnected": "Disconnected ",
@@ -25,44 +23,69 @@
     "unknown-tag": "N/A",
     "interval": 5,
     "consume-icons": {
-      "on": " "
+      "on": " ",
     },
     "random-icons": {
       "off": "<span color=\"#f53c3c\"></span> ",
-      "on": " "
+      "on": " ",
     },
     "repeat-icons": {
-      "on": " "
+      "on": " ",
     },
     "single-icons": {
-      "on": "1 "
+      "on": "1 ",
     },
     "state-icons": {
       "paused": "",
-      "playing": ""
+      "playing": "",
     },
     "tooltip-format": "MPD (connected)",
-    "tooltip-format-disconnected": "MPD (disconnected)"
+    "tooltip-format-disconnected": "MPD (disconnected)",
   },
   "tray": {
-    // "icon-size": 21,
-    "spacing": 10
+    "spacing": 10,
   },
   "clock": {
-    // "timezone": "America/New_York",
+    "timezone": "Asia/Manila",
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-    "format": "{:%I:%M %p}"
+    "format": "{:%d-%m-%Y %H:%M}",
+  },
+  "cpu": {
+    "format": "{usage}% ",
+    "tooltip": false,
+  },
+  "memory": {
+    "format": "{}% ",
+  },
+  "pulseaudio": {
+    // "scroll-step": 1, // %, can be a float
+    "format": "{volume}% {icon} {format_source}",
+    "format-bluetooth": "{volume}% {icon} {format_source}",
+    "format-bluetooth-muted": " {icon} {format_source}",
+    "format-muted": " {format_source}",
+    "format-source": "{volume}% ",
+    "format-source-muted": "",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", "", ""],
+    },
+    "on-click": "pavucontrol",
   },
   "custom/media": {
-    "format": "{icon} {}",
+    "format": "{icon} {text}",
     "return-type": "json",
     "max-length": 40,
     "format-icons": {
       "spotify": "",
-      "default": "🎜"
+      "default": "🎜",
     },
     "escape": true,
-    "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
+    "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null", // Script in resources folder
     // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
-  }
+  },
 }

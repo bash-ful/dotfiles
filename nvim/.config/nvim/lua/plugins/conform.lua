@@ -9,8 +9,11 @@ return {
 				css = { "prettierd", "prettier" },
 				scss = { "prettierd", "prettier" },
 				js = { "prettierd", "prettier" },
+				json = { "prettierd", "prettier" },
+				jsonc = { "prettierd", "prettier" },
 				ts = { "prettierd", "prettier" },
 				c = { "clang-format" },
+				py = { "ruff_format" },
 			},
 			default_format_opts = {
 				lsp_format = "fallback",

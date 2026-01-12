@@ -22,7 +22,7 @@ border-color=#36364a7a
 
 [urgency="high"]
 border-color=#a6a6ba7a
-default-timeout=0
+default-timeout=2500
 
 [app-name="wf-recorder" body="recording terminated\!"]
 default-timeout=750
